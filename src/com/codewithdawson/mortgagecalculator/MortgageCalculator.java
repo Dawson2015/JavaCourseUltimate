@@ -4,14 +4,20 @@ import java.text.NumberFormat;
 import java.util.Scanner;
 
 public class MortgageCalculator {
-    private final  byte MONTHS_IN_YEAR = 12;
-    private final  byte PERCENT = 100;
+    final static byte MONTHS_IN_YEAR = 12;
+    final static byte PERCENT = 100;
 
-    private int principal;
-    private float annualPercentInterestRate;
-    private int years;
+    public static void main(String[] args) {
+        int principal = (int) readNumber("principal: ", 1_000, 1_000_000);
+        float annualPercentInterestRate = (float) readNumber("Annual Interest Rate: ", 1,30);
+        byte years = (byte)readNumber("Period (Years): ",1,30);
 
-    public void printMortgage(int principal, float annualPercentInterestRate, byte years) {
+        printMortgage(principal, annualPercentInterestRate, years);
+
+        printPaymentSchedule(principal, annualPercentInterestRate, years);
+    }
+
+    private static void printMortgage(int principal, float annualPercentInterestRate, byte years) {
         double mortgage = calculateMortgage(principal, annualPercentInterestRate, years);
         String mortgageFormatted = NumberFormat.getCurrencyInstance().format(mortgage);
         System.out.println();
@@ -20,8 +26,7 @@ public class MortgageCalculator {
         System.out.println("Monthly Payments: " + mortgageFormatted);
     }
 
-
-    public void printPaymentSchedule(int principal, float annualPercentInterestRate, byte years) {
+    private static void printPaymentSchedule(int principal, float annualPercentInterestRate, byte years) {
         System.out.println();
         System.out.println("PAYMENT SCHEDULE");
         System.out.println("------------------");
@@ -31,7 +36,7 @@ public class MortgageCalculator {
         }
     }
 
-    public double readNumber(String prompt, double min, double max) {
+    public static double readNumber(String prompt, double min, double max) {
         Scanner scanner = new Scanner(System.in);
         double value;
         while(true) {
@@ -44,7 +49,7 @@ public class MortgageCalculator {
         return value;
     }
 
-    private double calculateBalance(
+    public static double calculateBalance(
             int principal,
             float annualPercentInterestRate,
             byte years,
@@ -60,7 +65,7 @@ public class MortgageCalculator {
         return balance;
     }
 
-    private double calculateMortgage(
+    public static double calculateMortgage(
             int principal,
             float annualPercentInterestRate,
             byte years) {
